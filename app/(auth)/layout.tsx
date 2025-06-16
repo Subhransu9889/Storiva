@@ -20,7 +20,7 @@ const Layout = ({children} : {children: React.ReactNode}) => {
         <div className='mb-16 lg:hidden'>
             <div className='flex items-center justify-center gap-2'>
                 <Image src="/assets/icons/logo_single.svg" alt="logo" width={105} height={82} className="rounded-full text-brand"/>
-                <h1 className='justify-center text-8xl font-bold text-white'>Storiva</h1>
+                <h1 className='justify-center text-8xl font-bold text-brand'>Storiva</h1>
             </div>
         </div>
       {children}
