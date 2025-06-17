@@ -3,19 +3,19 @@ import React, {useState} from 'react';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
+import { Button } from '@/Components/ui/button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input"
+} from '@/Components/ui/form'
+import { Input } from '@/Components/ui/input'
 import Image from "next/image";
 import Link from "next/link";
+import {createAccount} from "@/lib/actions/user.actions";
 
 
 type FormType = 'signin' | 'signup';
@@ -23,6 +23,7 @@ type FormType = 'signin' | 'signup';
 const AuthForm = ({type} : {type: FormType}) => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [accountId, setAccountId] = useState(null);
 
     const authFormSchema = (formType : FormType) => {
         return z.object({
@@ -41,10 +42,20 @@ const AuthForm = ({type} : {type: FormType}) => {
   })
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  const  onSubmit = async (values: z.infer<typeof formSchema>) => {
+      setIsLoading(true);
+      setErrorMessage('');
+    try {
+        const user = await createAccount({
+            fullName: values.fullName || '',
+            email: values.email,
+        })
+        setAccountId(user.accountId);
+    } catch {
+        setErrorMessage('Failed to create account. Please try again later.');
+    } finally {
+        setIsLoading(false);
+    }
   }
   return (
     <>
