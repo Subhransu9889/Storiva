@@ -8,7 +8,7 @@ export const createSessionClient = async () => {
         .setEndpoint(appwriteConfig.endpoint)
         .setProject(appwriteConfig.projectId);
 
-    const session = (await cookies()).get('appwrite-session');
+    const session = (await cookies()).get('storiva-session');
 
     if(!session || !session.value) throw new Error('Session not found');
 

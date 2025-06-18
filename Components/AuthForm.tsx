@@ -16,6 +16,7 @@ import { Input } from '@/Components/ui/input'
 import Image from "next/image";
 import Link from "next/link";
 import {createAccount} from "@/lib/actions/user.actions";
+import OTPModals from "@/Components/OTPModals";
 
 
 type FormType = 'signin' | 'signup';
@@ -116,6 +117,8 @@ const AuthForm = ({type} : {type: FormType}) => {
                 </div>
             </form>
         </Form>
+        {/* OTP Verification */}
+        { accountId && <OTPModals email={form.getValues('email')} accountId={accountId}/>}
     </>
   )
 };
