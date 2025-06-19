@@ -8,11 +8,12 @@
 // 6. Return the user's accountId that will be used to complete the log
 // 7. Verify OTP and authenticate to login
 
-import {createAdminClient} from "@/lib/appwrite";
+import {createAdminClient, createSessionClient} from "@/lib/appwrite";
 import {appwriteConfig} from "@/lib/appwrite/config";
 import {Query, ID} from "node-appwrite";
 import {parseStringify} from "@/lib/utils";
 import {cookies} from "next/headers";
+import {avatarPlaceholderUrl} from "@/constants";
 
 const getUserByEmail = async (email : string) => {
     const {databases} = await createAdminClient();
@@ -58,7 +59,7 @@ export const createAccount = async ({fullName, email} : {fullName : string; emai
             {
                 fullName,
                 email,
-                avatar: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                avatar: avatarPlaceholderUrl,
                 accountId,
             }
         )
@@ -82,8 +83,28 @@ export const verifySecret = async ({accountId, password}: {
             secure: true,
         });
 
-        return parseStringify({session: session.$id});
+        return parseStringify({ sessionId: session.$id });
     } catch (error) {
         handleError(error, "Failed to verify OTP");
     }
+}
+
+
+export  const getCurrentUser = async () => {
+   try{
+       const {databases, account} = await createSessionClient();
+
+       const result = await account.get();
+       const user = await  databases.listDocuments(
+           appwriteConfig.databaseId,
+           appwriteConfig.userCollectionId,
+           [Query.equal("accountId", result.$id)],
+       );
+
+       if(user.total <= 0) return null;
+
+       return parseStringify(user.documents[0]);
+   } catch (error) {
+       console.log(error, 'Failed to get current user');
+   }
 }

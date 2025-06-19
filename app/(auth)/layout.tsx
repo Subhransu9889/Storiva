@@ -4,9 +4,9 @@ import Image from 'next/image';
 const Layout = ({children} : {children: React.ReactNode}) => {
   return <div className="flex min-h-screen">
       <section className='hidden w-1/2 items-center justify-center bg-brand p-10 lg:flex xl:w-2/5'>
-          <div className='flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-12'>
+          <div className='flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-10'>
               <div className='flex items-center justify-center gap-2'>
-                  <Image src="/assets/icons/logo_single.svg" alt="logo" width={105} height={82} className="rounded-full text-brand"/>
+                  <Image src="/assets/icons/logo_single.svg" alt="logo" width={95} height={72} className="rounded-full text-brand"/>
                   <h1 className='justify-center text-8xl font-bold text-white'>Storiva</h1>
               </div>
               <div className='space-y-5 text-white'>
