@@ -14,6 +14,7 @@ import {Query, ID} from "node-appwrite";
 import {parseStringify} from "@/lib/utils";
 import {cookies} from "next/headers";
 import {avatarPlaceholderUrl} from "@/constants";
+import {redirect} from "next/navigation";
 
 const getUserByEmail = async (email : string) => {
     const {databases} = await createAdminClient();
@@ -107,4 +108,33 @@ export  const getCurrentUser = async () => {
    } catch (error) {
        console.log(error, 'Failed to get current user');
    }
+}
+
+export const SignOutUser = async () => {
+    const {account} = await createSessionClient();
+    try {
+        // Delete the current session
+        await account.deleteSession('current');
+        (await cookies()).delete('storiva-session');
+    } catch (error) {
+        handleError(error, 'Failed to sign out');
+    } finally {
+        redirect('/sign-in');
+    }
+}
+
+
+export const SignInUser = async ({email}: {email: string}) => {
+    try{
+        const existingUser = await getUserByEmail(email);
+        if(!existingUser) {
+            return parseStringify({accountId: null, error: 'User not found'});
+        } else {
+            await sendEmailOTP({email});
+            return parseStringify({accountId: existingUser.accountId});
+        }
+
+    } catch (error) {
+        handleError(error, 'Failed to sign in');
+    }
 }
