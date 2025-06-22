@@ -3,10 +3,13 @@ import Sort from "@/Components/Sort";
 import {getFiles} from "@/lib/actions/file.action";
 import {Models} from "node-appwrite";
 import Card from "@/Components/Card";
+import {getFileTypesParams} from "@/lib/utils";
 
 const Page = async ({params}: SearchParamProps) => {
     const type = (await params).type;
-    const files = await getFiles()
+
+    const types = getFileTypesParams(type) as FileType[];
+    const files = await getFiles({types});
 
   return <div className='page-container'>
       <section className='w-full'>
