@@ -23,7 +23,7 @@ import {constructDownloadUrl} from "@/lib/utils";
 import {Input} from "@/Components/ui/input";
 import {Button} from "@/Components/ui/button";
 import {usePathname} from "next/navigation";
-import {renameFile, updateFileUsers} from "@/lib/actions/file.action";
+import {deleteFile, renameFile, updateFileUsers} from "@/lib/actions/file.action";
 import {FileDetails, ShareInput} from "@/Components/ActionsModalContent";
 
 const ActionDropdown = ({file}: {file: Models.Document}) => {
@@ -51,7 +51,7 @@ const ActionDropdown = ({file}: {file: Models.Document}) => {
     const actions = {
       rename: () => renameFile({fileId: file.$id, name, extension: file.extension, path}),
       share: () => updateFileUsers({fileId: file.$id, emails, path}),
-      delete: () => console.log('delete'),
+      delete: () => deleteFile({fileId: file.$id, bucketFileId: file.bucketFileId, path}),
       details: () => console.log('details'),
     };
     success = await actions[action.value as keyof typeof actions]();
@@ -87,6 +87,12 @@ const ActionDropdown = ({file}: {file: Models.Document}) => {
             {value === 'rename' && <Input type='text' value={name} onChange={(e) => setName(e.target.value)} placeholder='Enter new name'/>}
             {value === 'details' && <FileDetails file={file}/>}
             {value === 'share' && <ShareInput file={file} onInputChange={setEmails} onRemove={handleRemoveUser}/>}
+            {value === 'delete' && (
+                <p className='delete-confirmation'>
+                  Are you sure you want to delete {``}
+                  <span className='delete-file-name'>${file.name}</span>?
+                </p>
+            )}
           </DialogHeader>
           {['rename', 'share', 'delete'].includes(value) && (
               <DialogFooter className='flex flex-col gap-3 md:flex-row'>
