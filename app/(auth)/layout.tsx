@@ -11,7 +11,7 @@ const Layout = ({children} : {children: React.ReactNode}) => {
               </div>
               <div className='space-y-5 text-white'>
                 <h1 className='h1'>Manage your files the best way</h1>
-                  <p className='body-1'>Awesome, we've created the perfect place for you to store all your documents.</p>
+                  <p className='body-1'>Awesome, we&#39;ve created the perfect place for you to store all your documents.</p>
               </div>
               <Image src='/assets/images/files.png' alt='files' height={342} width={342} className='transition-all hover:rotate-2 hover:scale-105'/>
           </div>
