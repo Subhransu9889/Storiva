@@ -4,7 +4,8 @@ import MobileNavigation from "@/Components/MobileNavigation";
 import Header from "@/Components/Header";
 import {getCurrentUser} from "@/lib/actions/user.actions";
 import {redirect} from "next/navigation";
-import { Toaster } from '@/Components/ui/sonner'
+import { Toaster } from '@/Components/ui/sonner';
+import "@/app/globals.css";
 
 export const dynamic = 'force-dynamic';
 
