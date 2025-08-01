@@ -19,7 +19,7 @@ import {createAccount, SignInUser} from "@/lib/actions/user.actions";
 import OTPModals from "@/Components/OTPModals";
 
 
-type FormType = 'signin' | 'signup';
+type FormType = 'sign-in' | 'sign-up';
 
 const AuthForm = ({type} : {type: FormType}) => {
     const [isLoading, setIsLoading] = React.useState(false);
@@ -29,7 +29,7 @@ const AuthForm = ({type} : {type: FormType}) => {
     const authFormSchema = (formType : FormType) => {
         return z.object({
             email: z.string().email(),
-            fullName: formType === 'signup' ? z.string().min(2).max(50) : z.string().optional(),
+            fullName: formType === 'sign-up' ? z.string().min(2).max(50) : z.string().optional(),
         });
     }
   // 1. Define your form.
@@ -47,7 +47,7 @@ const AuthForm = ({type} : {type: FormType}) => {
       setIsLoading(true);
       setErrorMessage('');
     try {
-        const user = type === 'signup' ? await createAccount({
+        const user = type === 'sign-up' ? await createAccount({
             fullName: values.fullName || '',
             email: values.email,
         }) : await SignInUser({email: values.email});
