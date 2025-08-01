@@ -36,7 +36,7 @@ const Sidebar = ({fullName, avatar, email}: Props) => {
       <Image src={avatar} alt='Avtar' width={44} height={44} className='sidebar-user-avatar'/>
       <div className='hidden w-full min-w-0 lg:block'>
         <p className='subtitle-2 capitalize'>{fullName}</p>
-        <p className='caption w-full'>{email}</p>
+        <p className='caption w-full truncate'>{email}</p>
       </div>
     </div>
   </aside>)
